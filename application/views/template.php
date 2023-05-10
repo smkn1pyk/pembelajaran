@@ -24,37 +24,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <?php 
-    if($cekThnAjr) { 
-      ?>
-      <div>
-        <form method="GET" class="form-inline">
+      if($semester_id) { 
+        ?>
+        <div>
           <div class="input-group">
-            <select name="thn_ajr" class="form-control">
+            <select name="semester_id" class="form-control" hx-get="<?= base_url('app') ?>" hx-target="#data">
               <?php
 
-              foreach ($cekThnAjr as $key => $value) {
-                $thn = substr($value->thn_ajr, 0,4); 
-                $semester = substr($value->thn_ajr, 4);
+              foreach ($semester_id as $key => $value) {
+                $thn = substr($value->semester_id, 0,4); 
+                $semester = substr($value->semester_id, 4);
                 if($semester=='1'){
                   $semester = 'Ganjil';
                 }else{
                   $semester = 'Genap';
                 }
-                if($value->thn_ajr==$this->session->userdata('thn_ajr')){
-                  echo "<option value='$value->thn_ajr' selected>$thn $semester</option>";
+                if($value->semester_id==$this->session->userdata('semester_id')){
+                  echo "<option value='$value->semester_id' selected>$thn $semester</option>";
                 }else{
-                  echo "<option value='$value->thn_ajr'>$thn $semester</option>";
+                  echo "<option value='$value->semester_id'>$thn $semester</option>";
                 }
               }
               ?>
             </select>
           </div>
-          <div class="input-group">
-            <button class="btn btn-light ml-2"><i class="fa fa-search"></i></button>
-          </div>
-        </form>
-      </div>
-    <?php } ?>
+        </div>
+      <?php } ?>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="<?= base_url('welcome/kompetensi') ?>"><i class="fa fa-list"></i> Kompetensi Keahlian</a>
@@ -79,16 +74,15 @@
     </div>
   </nav>
   <div class="container text-center jumbotron mb-1 p-2" style="margin-top: 80px;">
-    <h3>SMK NEGERI 1 PAYAKUMBUH</h3><h4><?= $this->session->userdata('thn_ajr'); ?></h4>
+    <h3>SMK NEGERI 1 PAYAKUMBUH</h3><h4><?= $this->session->userdata('semester_id'); ?></h4>
     
   </div>
-  <div class="container bg-light pt-3 rounded pb-2">
-    <?php
-    $this->load->view('pages/'.$page);
-    ?>
+  <div class="container bg-light pt-3 rounded pb-2" hx-get="<?= $page ?>" hx-target="#data" hx-trigger="load">
+    <div id="data"></div>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
 </body>
 </html>

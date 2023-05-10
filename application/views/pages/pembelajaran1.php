@@ -1,110 +1,77 @@
 <?php
 if($rombel){
 	$n=0;
-	foreach ($rombel as $key => $value) {
-		$n++;
-		echo "<div class='alert bg-donker text-light'>{$n}. $value->Nama_Rombel, $value->Jml_Siswa Peserta Didik</div>";
-		$this->db->order_by('Kode_Matpel', 'asc');
-		$pembelajaran = $this->db->get_where('pembelajaran', array('Nama_Rombel'=>$value->Nama_Rombel,'thn_ajr'=>$this->session->userdata('thn_ajr')))->result();{
-			if($pembelajaran){
-				$no=0;
-				echo "<table class='table table-sm table-bordered small rounded table-responsive-sm shadow'>";
-				echo "<tr class='bg-donker text-light'>";
-				echo "<th>No</th>";
-				echo "<th>Kode Bidang Studi</th>";
-				echo "<th>Bidang Studi</th>";
-				echo "<th>PTK</th>";
-				echo "<th>SK Mengajar</th>";
-				echo "<th>Tgl SK Mengajar</th>";
-				echo "<th>Status di Kurikulum</th>";
-				echo "<th>Jumlah Jam</th>";
-				echo "</tr>";
-				foreach ($pembelajaran as $key => $value) {
-					$no++;
-
-					if($value->Status_di_Kurikulum=='Matpel Bidang Studi Wajib A'){
-						echo "<tr class='alert-success'>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>$value->Status_di_Kurikulum</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
-					}else
-					if($value->Status_di_Kurikulum=='Matpel Bidang Studi Wajib B'){
-						echo "<tr class='alert-warning'>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>$value->Status_di_Kurikulum</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
-					}else
-					if($value->Status_di_Kurikulum=='Kejuruan'){
-						echo "<tr class='alert-dark'>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>$value->Status_di_Kurikulum</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
-					}else
-					if($value->Status_di_Kurikulum=='Matpel Lainnya'){
-						echo "<tr class='alert-primary'>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>$value->Status_di_Kurikulum</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
-					}else
-					if($value->Status_di_Kurikulum=='-'){
-						echo "<tr class='alert-danger'>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>Matpel Pilihan</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
+	?>
+	<div class="form-inline mb-3">
+		<select name="rombel" class="form-control" hx-get="<?= base_url('app/pembelajaran') ?>" hx-target="#data">
+			<option value="">Pilih Rombel</option>
+			<?php foreach ($rombel as $key => $value): ?>
+				<?php
+				if($this->input->get('rombel')){
+					if($value->rombongan_belajar_id==$this->input->get('rombel')){
+						?> <option value="<?= $value->rombongan_belajar_id ?>" selected><?= $value->nama ?></option> <?php
 					}else{
-						echo "<tr class=''>";
-						echo "<td>$no</td>";
-						echo "<td>$value->Kode_Matpel</td>";
-						echo "<td>$value->Nama_Matpel</td>";
-						echo "<td>$value->Nama_PTK</td>";
-						echo "<td>$value->SK_Mengajar</td>";
-						echo "<td>$value->Tgl_SK_Mengajar</td>";
-						echo "<td>$value->Status_di_Kurikulum</td>";
-						echo "<td>$value->JJM Jam</td>";
-						echo "</tr>";
+						?> <option value="<?= $value->rombongan_belajar_id ?>"><?= $value->nama ?></option> <?php
 					}
-					$TJJM[$value->Nama_Rombel][] = $value->JJM;
+				}else{
+					?> <option value="<?= $value->rombongan_belajar_id ?>"><?= $value->nama ?></option> <?php
 				}
-				echo "<tr class='font-weight-bold'>";
-				echo "<td colspan='6'></td>";
-				echo "<td>".array_sum($TJJM[$value->Nama_Rombel])." Jam</td>";
-				echo "</tr>";
-				echo "</table>";
+				?>
+			<?php endforeach ?>
+		</select>
+	</div>
+	<div class="card">
+		<div class="card-header bg-donker text-light">
+			<?= $rombel1['nama'] ?>
+		</div>
+		<div class="card-body">
+			<?php
+			
+			if($pembelajaran){
+				?>
+				<div class="table-responsive">
+					<table class="table table-sm">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Kode Matpel</th>
+								<th>Nama MAtpel</th>
+								<th>PTK</th>
+								<th>JJM</th>
+								<th>Status di Kurikulum</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($pembelajaran as $key1 => $value1):$key1++; ?>
+								<?php
+								$ptk = $this->db->get_where('getgtk', ['ptk_terdaftar_id'=>$value1->ptk_terdaftar_id, 'tahun_ajaran_id'=>$this->session->userdata('tahun_ajaran_id')])->row_array();
+								?>
+								<tr>
+									<td><?= $key1 ?></td>
+									<td><?= $value1->mata_pelajaran_id ?></td>
+									<td><?= $value1->mata_pelajaran_id_str ?></td>
+									<td>
+										<?php
+										if($ptk){
+											echo $ptk['nama'];
+										}
+										?>
+									</td>
+									<td><?= $value1->jam_mengajar_per_minggu ?></td>
+									<td><?= $value1->status_di_kurikulum_str ?></td>
+								</tr>
+							<?php endforeach ?>
+						</tbody>
+					</table>
+				</div>
+				<?php
 			}else{
-				echo "<div class='alert alert-danger'>Belum ada data pembeljaran tersimpan</div>";
+				?> <div class="alert alert-danger"> 0 Results </div> <?php
 			}
-		}
-	}
+			?>
+		</div>
+	</div>
+	<?php
 }else{
 	echo "<div class='alert alert-danger'>Belum ada data untuk ditampilkan</div>";
 }
