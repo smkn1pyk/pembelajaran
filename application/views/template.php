@@ -41,6 +41,7 @@
       $semester_id = $this->db->query("SELECT DISTINCT(semester_id) from getsekolah order by semester_id desc")->result();
       ?>
       <select class="form-control" name="semester_id" hx-get="<?= base_url('app') ?>" hx-target="#data">
+        <option value="">Tahun Ajaran</option>
         <?php foreach ($semester_id as $key => $value): ?>
           <?php
           if($this->input->get('semester_id')){
@@ -50,22 +51,26 @@
               ?> <option value="<?= $value->semester_id ?>"><?= $value->semester_id ?></option> <?php
             }
           }else{
-            ?> <option value="<?= $value->semester_id ?>"><?= $value->semester_id ?></option> <?php
-          }
-          ?>
-        <?php endforeach ?>
-      </select>
-    </form>
-  </nav>
-  <div class="container text-center jumbotron mb-1 p-2" style="margin-top: 80px;">
-    <h3>SMK NEGERI 1 PAYAKUMBUH</h3><h4><?= $this->session->userdata('semester_id'); ?></h4>
-  </div>
+           if($value->semester_id==$this->session->userdata('semester_id')){
+            ?> <option value="<?= $value->semester_id ?>" selected><?= $value->semester_id ?></option> <?php
+          }else{
+           ?> <option value="<?= $value->semester_id ?>"><?= $value->semester_id ?></option> <?php
+         }
+       }
+       ?>
+     <?php endforeach ?>
+   </select>
+ </form>
+</nav>
+<div class="container text-center jumbotron mb-1 p-2" style="margin-top: 80px;">
+  <h3>SMK NEGERI 1 PAYAKUMBUH</h3><h4><?= $this->session->userdata('semester_id'); ?></h4>
+</div>
 
-  <div class="container bg-light pt-3 rounded pb-2">
-    <div id="data" hx-get="<?= $page ?>" hx-target="#data" hx-trigger="load"></div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<div class="container bg-light pt-3 rounded pb-2">
+  <div id="data" hx-get="<?= $page ?>" hx-target="#data" hx-trigger="load"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
