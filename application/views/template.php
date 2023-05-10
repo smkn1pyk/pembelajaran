@@ -40,7 +40,7 @@
       <?php
       $semester_id = $this->db->query("SELECT DISTINCT(semester_id) from getsekolah order by semester_id desc")->result();
       ?>
-      <select class="form-control" name="semester_id" hx-get="<?= base_url('app') ?>" hx-target="#data">
+      <select class="form-control" name="semester_id" hx-get="<?= base_url('app/ganti_sesi') ?>" hx-target="#data">
         <option value="">Tahun Ajaran</option>
         <?php foreach ($semester_id as $key => $value): ?>
           <?php

@@ -37,6 +37,31 @@ class App extends CI_Controller {
 		$this->load->view('template', $data, FALSE);
 	}
 
+	function ganti_sesi()
+	{
+		if($this->input->get('semester_id')){
+			$semester_id = $this->input->get('semester_id');
+		}else{
+			if($this->session->userdata('semester_id')){
+				$semester_id = $this->session->userdata('semester_id');
+			}else{
+				if(date('m')>=7&&date('m')<=12){
+					$semester_id = date('Y'.'1');
+				}else{
+					$semester_id = date('Y')-1;
+					$semester_id = $semester_id.'2';
+				}
+			}
+		}
+		$array = array(
+			'semester_id' => $semester_id,
+			'tahun_ajaran_id' => substr($semester_id, 0, 4),
+		);
+
+		$this->session->set_userdata( $array );
+		echo '<script>window.location.href = "";</script>';
+	}
+
 	function pembelajaran()
 	{
 		$data = [
